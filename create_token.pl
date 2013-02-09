@@ -21,6 +21,7 @@ use warnings;
 
 use Net::OAuth2::Profile::WebServer;
 use JSON;
+use YAML::Any qw/ LoadFile /;
 use Getopt::Long;
 use Pod::Usage;
 use Path::Tiny;
@@ -38,7 +39,7 @@ GetOptions(
 pod2usage( -verbose => 1 ) if $help;
 pod2usage( -verbose => 2 ) if $man;
 
-my $server_config = decode_json( path($server_config_file)->slurp );
+my $server_config = LoadFile($server_config_file);
 
 #The target file to save the credentials to
 my $token_file = $server_config->{'token_file'};
