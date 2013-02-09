@@ -19,6 +19,9 @@ You have to authorize the app as well, with create_token.pl.
 Allows you to specify a MIME type for the document. Default is I<text/plain>.
 
 =cut
+
+use 5.10.0;
+
 use strict;
 use warnings;
 
@@ -100,3 +103,4 @@ $resp = $access_token->put(
 
 die "Failed to upload, HTTP error ".$resp->code unless $resp->code == 200;
 
+say "$source_file uploaded as $target_doc";

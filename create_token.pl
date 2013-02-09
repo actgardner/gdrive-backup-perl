@@ -14,6 +14,8 @@ create_token.pl [-c <configuration file>]
 
 =cut
 
+use 5.10.0;
+
 use strict;
 use warnings;
 
@@ -45,16 +47,16 @@ my $server = Net::OAuth2::Profile::WebServer->new(
                %{$server_config->{'oauth_conf'}},
                access_type=>'offline');
 
-print "\r\nVisit the following URL in a browser to authorize the app:\r\n\r\n",
-      $server->authorize."\r\n\r\n";
+say "\r\nVisit the following URL in a browser to authorize the app:\r\n\r\n",
+      $server->authorize."\r\n";
 
 chomp( my $auth_code = prompt 'Enter the code generated to continue' );
 
-print "\r\nExchanging auth token for access token\r\n";
+say "\r\nExchanging auth token for access token";
 
 my $access_token = $server->get_access_token($auth_code, grant_type=>'authorization_code');
 
-print "\r\nTesting access token with Drive query\r\n";
+say "\r\nTesting access token with Drive query";
 
 my $resp = $access_token->get("https://www.googleapis.com/drive/v2/files");
 
@@ -63,4 +65,4 @@ die "The response from the server was bad: \r\n ".$resp->content
 
 path($token_file)->spew($access_token->to_json);
 
-print "Success! Your OAuth credentials have been stored in $token_file\r\n";
+say "Success! Your OAuth credentials have been stored in $token_file";
