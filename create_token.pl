@@ -22,6 +22,7 @@ use JSON;
 use Getopt::Long;
 use Pod::Usage;
 use Path::Tiny;
+use IO::Prompt::Simple;
 
 #Load the JSON config
 my $server_config_file = "gdrive_backup.conf";
@@ -44,13 +45,10 @@ my $server = Net::OAuth2::Profile::WebServer->new(
                %{$server_config->{'oauth_conf'}},
                access_type=>'offline');
 
-print "\r\nVisit the following URL in a browser to authorize the app:\r\n\r\n";
-print $server->authorize."\r\n";
-print "\r\nEnter the code generated to continue: ";
+print "\r\nVisit the following URL in a browser to authorize the app:\r\n\r\n",
+      $server->authorize."\r\n\r\n";
 
-my $auth_code = <STDIN>;
-
-chomp( $auth_code );
+chomp( my $auth_code = prompt 'Enter the code generated to continue' );
 
 print "\r\nExchanging auth token for access token\r\n";
 
