@@ -1,5 +1,7 @@
 #!/usr/bin/env perl
 use strict;
+use warnings;
+
 use Net::OAuth2::Profile::WebServer;
 use JSON;
 use File::Slurp;
